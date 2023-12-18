@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { City } from '@types/interfaces'
+import { City } from '@typify/interfaces/city.interface'
 
 const { cities } = defineProps<{
   cities?: City[]
@@ -13,7 +13,12 @@ const { cities } = defineProps<{
     <li v-if="isLoading" class="cities-item--special cities-item">
       ...Loading
     </li>
-    <li v-if="isError" class="cities-item--special">Not found🙁</li>
+    <li
+      v-if="isError || (!isLoading && !cities?.length)"
+      class="cities-item--special cities-item"
+    >
+      Not found🙁
+    </li>
     <li v-for="{ name, lat, country } of cities" :key="lat" class="cities-item">
       {{ name }}, {{ country }}
     </li>

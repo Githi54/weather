@@ -12,7 +12,7 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "./src/components"),
       "@api": path.resolve(__dirname, "./src/api"),
       "@store": path.resolve(__dirname, "./src/store"),
-      "@types": path.resolve(__dirname, "./src/types"),
+      "@typify": path.resolve(__dirname, "./src/typify"),
     },
   },
   plugins: [vue(), eslintPlugin()],

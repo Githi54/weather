@@ -11,7 +11,7 @@
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"],
       "@store/*": ["src/store/*"],
-      "@types/*": ["src/types/*"],
+      "@typify/*": ["src/typify/*"],
     },
 
     /* Bundler mode */
