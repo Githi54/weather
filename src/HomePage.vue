@@ -12,7 +12,7 @@ const handleSearch = (value: string) => {
 
 const isEnable = computed(() => cityQuery.value.length > 0)
 const { data: cities } = useQuery({
-  queryKey: ['cities'],
+  queryKey: ['cities', cityQuery],
   queryFn: () => getCities(cityQuery.value),
   select: (response) => response.data,
   enabled: isEnable,
@@ -23,7 +23,7 @@ const { data: cities } = useQuery({
   <h1>Home</h1>
   <div class="search-container">
     <SearchInput placeholder="Search city" @search="handleSearch" />
-    <CityList v-if="cityQuery.length" :cities="cities" />
+    <CityList v-if="cityQuery.length" :cities="cities || []" />
     <div class="">{{ cityQuery }}</div>
   </div>
 </template>
