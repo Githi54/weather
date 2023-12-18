@@ -40,8 +40,8 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          VITE_BASE_WEATHER_URL: ${{ secrets.VITE_BASE_WEATHER_URL }}
-          VITE_WEATHER_API_KEY: ${{ secrets.VITE_WEATHER_API_KEY }}
+          VITE_BASE_WEATHER_URL: ${{ env.VITE_BASE_WEATHER_URL }}
+          VITE_WEATHER_API_KEY: ${{ env.VITE_WEATHER_API_KEY }}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
