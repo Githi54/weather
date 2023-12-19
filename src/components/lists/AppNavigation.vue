@@ -16,6 +16,8 @@ import { routes } from '@app/router'
 
 <style>
 .nav-container {
+  position: relative;
+
   display: flex;
   align-items: center;
   flex-wrap: wrap;

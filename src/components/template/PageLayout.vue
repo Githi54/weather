@@ -24,6 +24,8 @@ const { loaderCondition } = defineProps<{
   display: flex;
   flex-direction: column;
 
-  gap: 40px;
+  height: 100%;
+
+  gap: 100px;
 }
 </style>

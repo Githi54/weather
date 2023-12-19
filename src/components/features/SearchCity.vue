@@ -44,5 +44,10 @@ const {
 
   width: 100%;
   max-width: 306px;
+
+  position: absolute;
+
+  top: 30%;
+  z-index: 9999;
 }
 </style>
