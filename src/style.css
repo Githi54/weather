@@ -15,12 +15,31 @@ body {
 }
 
 #app {
+  width: 100vw;
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-template {
-  width: 100%;
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 95px;
+  height: 32px;
+
+  border: 1px solid var(--Gray-100);
+  border-radius: 10px;
+
+  background: #fff;
+}
+
+.btn:hover, .btn:active {
+  border-color: var(--Gray-300);
+}
+
+.btn:active {
+  background: var(--Gray-50);
 }

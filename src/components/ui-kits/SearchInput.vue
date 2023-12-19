@@ -27,8 +27,6 @@ const emitInputChange = () => searchEmit('search', query.value)
   padding: 0 10px;
 
   height: 36px;
-  min-width: 200px;
-  max-width: 306px;
 
   border-radius: 4px;
   border: 1px solid var(--Gray-100);

@@ -10,7 +10,7 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"],
-      "@store/*": ["src/store/*"],
+      "@app/*": ["src/app/*"],
       "@typify/*": ["src/typify/*"],
       "@assets/*": ["src/assets/*"],
     },

@@ -15,6 +15,7 @@ export default defineConfig({
       "@store": path.resolve(__dirname, "./src/store"),
       "@typify": path.resolve(__dirname, "./src/typify"),
       "@assets": path.resolve(__dirname, "./src/assets"),
+      "@app": path.resolve(__dirname, "./src/app"),
     },
   },
   plugins: [vue(), eslintPlugin(), svgLoader()],
