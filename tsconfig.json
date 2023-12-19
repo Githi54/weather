@@ -12,6 +12,7 @@
       "@api/*": ["src/api/*"],
       "@store/*": ["src/store/*"],
       "@typify/*": ["src/typify/*"],
+      "@assets/*": ["src/assets/*"],
     },
 
     /* Bundler mode */

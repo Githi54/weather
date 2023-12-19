@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import eslintPlugin from "vite-plugin-eslint";
 import path from "path";
+import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +14,8 @@ export default defineConfig({
       "@api": path.resolve(__dirname, "./src/api"),
       "@store": path.resolve(__dirname, "./src/store"),
       "@typify": path.resolve(__dirname, "./src/typify"),
+      "@assets": path.resolve(__dirname, "./src/assets"),
     },
   },
-  plugins: [vue(), eslintPlugin()],
+  plugins: [vue(), eslintPlugin(), svgLoader()],
 });
