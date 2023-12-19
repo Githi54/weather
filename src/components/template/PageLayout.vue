@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import AppLogo from '@components/ui-kits/AppLogo.vue'
 import AppNavigation from '@components/lists/AppNavigation.vue'
+import ContentLoader from '@components/ui-kits/ContentLoader.vue'
+
+const { loaderCondition } = defineProps<{
+  loaderCondition?: boolean
+}>()
 </script>
 
 <template>
@@ -8,7 +13,9 @@ import AppNavigation from '@components/lists/AppNavigation.vue'
 
   <div class="layout-container">
     <AppNavigation />
-    <slot></slot>
+    <slot name="independentSlot"></slot>
+    <ContentLoader v-if="loaderCondition" />
+    <slot v-else></slot>
   </div>
 </template>
 

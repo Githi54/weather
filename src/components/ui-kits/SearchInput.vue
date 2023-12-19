@@ -9,7 +9,7 @@ const searchEmit = defineEmits<{ search: [value: string] }>()
 const emitInputChange = () => searchEmit('search', query.value)
 </script>
 
-<template>
+<template v-slot:independentSlot>
   <input
     v-model="query"
     type="text"

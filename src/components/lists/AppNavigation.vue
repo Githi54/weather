@@ -18,6 +18,10 @@ import { routes } from '@app/router'
 .nav-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+
+  width: 100%;
+  max-width: 400px;
   gap: 10px;
 }
 </style>
