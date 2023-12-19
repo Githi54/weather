@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { City } from '@typify/interfaces/city.interface'
+import { ICity } from '@typify/interfaces/city.interface'
 
 const { cities } = defineProps<{
-  cities?: City[]
+  cities?: ICity[]
   isLoading?: boolean
   isError?: boolean
 }>()
