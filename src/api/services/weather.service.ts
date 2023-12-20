@@ -6,6 +6,6 @@ export const getWeather = (lat: number, lon: number) => {
   return weatherClient.get(
     `${BASE_WEATHER_URL}?lat=${lat}&lon=${lon}&appid=${
       import.meta.env.VITE_WEATHER_API_KEY
-    }&exclude=hourly`,
+    }`,
   )
 }

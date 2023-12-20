@@ -8,13 +8,16 @@ import { storeToRefs } from 'pinia'
 const store = useCitiesWeather()
 
 const { citiesWeather } = storeToRefs(store)
-
-console.log(citiesWeather)
 </script>
 
 <template>
   <PageLayout>
     <SearchCity />
-    <WeatherCard :current-weather="citiesWeather[0].current" />
+    <WeatherCard
+      v-for="{ current } of citiesWeather"
+      :key="current.weather[0].id"
+      :current-weather="current"
+      city="Kiev"
+    />
   </PageLayout>
 </template>

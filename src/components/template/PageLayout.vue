@@ -26,6 +26,6 @@ const { loaderCondition } = defineProps<{
 
   height: 100%;
 
-  gap: 100px;
+  gap: 40px;
 }
 </style>

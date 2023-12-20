@@ -26,9 +26,14 @@ const {
 
 <template>
   <div class="search-container">
-    <SearchInput placeholder="Search city" @search="handleSearch" />
+    <SearchInput
+      placeholder="Search city"
+      class="search-input"
+      @search="handleSearch"
+    />
     <CityList
       v-if="cityQuery.length"
+      class="search-city-list"
       :cities="cities"
       :is-loading="isLoading"
       :is-error="isError || isRefetchError"
@@ -42,12 +47,23 @@ const {
   flex-direction: column;
   gap: 0;
 
+  position: relative;
+
+  max-width: 306px;
+}
+
+.search-input {
+  position: absolute;
+  width: 100%;
+
+  top: -25px;
+}
+
+.search-city-list {
+  position: absolute;
+  top: 15px;
+
   width: 100%;
   max-width: 306px;
-
-  position: absolute;
-
-  top: 30%;
-  z-index: 9999;
 }
 </style>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ICurrentWeather } from '@typify/interfaces/weather-info.interface'
 
-const { currentWeather } = defineProps<{
+const { currentWeather, city } = defineProps<{
   currentWeather: ICurrentWeather
+  city: string
 }>()
 
 const {
@@ -34,11 +35,15 @@ const transformFromKelvinToCelsiusWeather = (temp: number) =>
         {{ transformFromKelvinToCelsiusWeather(temp) }}
       </p>
     </div>
-    <p class="weather-text">{{ description.toUpperCase() }}</p>
+    <div>
+      <p class="weather-text">{{ city }}</p>
+      <p class="weather-text">{{ description.toUpperCase() }}</p>
+    </div>
     <div class="weather-additional">
       <p class="weather-text">
-        Feels like: {{ transformFromKelvinToCelsiusWeather(feels_like) }} |
+        Feels like: {{ transformFromKelvinToCelsiusWeather(feels_like) }}
       </p>
+      <p class="weather-text">|</p>
       <p class="weather-text">
         Sunset: {{ date.getHours() }}:{{
           date.getMinutes() > 10 ? date.getMinutes() : `0${date.getMinutes()}`
