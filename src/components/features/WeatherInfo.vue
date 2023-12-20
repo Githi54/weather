@@ -10,6 +10,7 @@ import WeatherCard from '@components/ui-kits/WeatherCard.vue'
 import { storeToRefs } from 'pinia'
 import classNames from 'classnames'
 import { ref } from 'vue'
+import { CONTENT_LIMIT } from '@app/constants'
 
 const store = useCitiesWeather()
 const { citiesWeather } = storeToRefs(store)
@@ -21,12 +22,18 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
 
   if (selectedCitiesIDs.value.includes(weatherID)) {
     removeSelectedWeather(weatherID)
-    selectedCitiesIDs.value = selectedCitiesIDs.value.filter(
-      (id) => id !== weatherID,
-    )
+
+    if (selectedCities.value.length > 1) {
+      selectedCitiesIDs.value = selectedCitiesIDs.value.filter(
+        (id) => id !== weatherID,
+      )
+    }
   } else {
     selectCurrentWeather(weatherData)
-    selectedCitiesIDs.value = [...selectedCitiesIDs.value, weatherID]
+
+    if (selectedCitiesIDs.value.length < CONTENT_LIMIT) {
+      selectedCitiesIDs.value = [...selectedCitiesIDs.value, weatherID]
+    }
   }
 
   const newArr = getSelectedCurrentWeather()
