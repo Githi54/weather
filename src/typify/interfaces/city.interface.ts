@@ -10,3 +10,8 @@ export interface ICity {
   country: string
   state: string
 }
+
+export interface ICoord {
+  lat: number
+  lon: number
+}

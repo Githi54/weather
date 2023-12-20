@@ -3,7 +3,7 @@ import SearchInput from '@components/ui-kits/SearchInput.vue'
 import CityList from '@components/lists/CityList.vue'
 import { computed, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
-import { getCities } from '@api/services'
+import { getCitiesByQuery } from '@api/services'
 
 const cityQuery = ref('')
 const handleSearch = (value: string) => {
@@ -18,8 +18,8 @@ const {
   isRefetchError,
 } = useQuery({
   queryKey: ['cities', cityQuery],
-  queryFn: () => getCities(cityQuery.value),
-  select: (response) => response.data,
+  queryFn: () => getCitiesByQuery(cityQuery.value),
+  select: ({ data }) => data,
   enabled: isEnable,
 })
 </script>
@@ -65,5 +65,7 @@ const {
 
   width: 100%;
   max-width: 306px;
+
+  z-index: 9999;
 }
 </style>
