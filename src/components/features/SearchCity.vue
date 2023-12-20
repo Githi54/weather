@@ -4,6 +4,8 @@ import CityList from '@components/lists/CityList.vue'
 import { computed, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import { getCitiesByQuery } from '@api/services'
+import { useCitiesWeather } from '@app/stores/citiesWeather.store'
+import { ICoord } from '@typify/interfaces/city.interface'
 
 const cityQuery = ref('')
 const handleSearch = (value: string) => {
@@ -22,6 +24,11 @@ const {
   select: ({ data }) => data,
   enabled: isEnable,
 })
+const { addCity } = useCitiesWeather()
+const handleClickCity = (coord: ICoord) => {
+  addCity(coord)
+  cityQuery.value = ''
+}
 </script>
 
 <template>
@@ -32,11 +39,12 @@ const {
       @search="handleSearch"
     />
     <CityList
-      v-if="cityQuery.length"
+      v-if="cityQuery.trim().length"
       class="search-city-list"
       :cities="cities"
       :is-loading="isLoading"
       :is-error="isError || isRefetchError"
+      @handle-click="handleClickCity"
     />
   </div>
 </template>
@@ -66,6 +74,6 @@ const {
   width: 100%;
   max-width: 306px;
 
-  z-index: 9999;
+  z-index: 1111;
 }
 </style>

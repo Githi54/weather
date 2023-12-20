@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ICity } from '@typify/interfaces/city.interface'
+import { ICity, ICoord } from '@typify/interfaces/city.interface'
 
 const { cities } = defineProps<{
   cities?: ICity[]
   isLoading?: boolean
   isError?: boolean
+}>()
+
+const emit = defineEmits<{
+  handleClick: [coord: ICoord]
 }>()
 </script>
 
@@ -19,9 +23,14 @@ const { cities } = defineProps<{
     >
       Not found🙁
     </li>
-    <li v-for="{ name, lat, country } of cities" :key="lat" class="cities-item">
-      {{ name }}, {{ country }}
-    </li>
+    <button
+      v-for="{ name, lat, country, lon } of cities"
+      :key="lat"
+      class="cities-item"
+      @click="emit('handleClick', { lat, lon })"
+    >
+      <li>{{ name }}, {{ country }}</li>
+    </button>
   </ul>
 </template>
 
@@ -44,6 +53,7 @@ const { cities } = defineProps<{
   max-height: 300px;
 }
 .cities-item {
+  all: unset;
   color: var(--Gray-500);
   width: 100%;
   text-align: left;

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ICurrentWeather } from '@typify/interfaces/weather-info.interface'
+import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
 
 const { currentWeather } = defineProps<{
-  currentWeather: ICurrentWeather
+  currentWeather: IWeatherInfo
 }>()
 
 const {
-  temp,
   weather: {
     0: { icon, description },
   },
-  feels_like,
-  sunset,
+  sys: { sunset },
+  main: { feels_like, temp },
+  name,
 } = currentWeather
 const date = new Date(sunset)
 const BASE_URL = import.meta.env.VITE_BASE_WEATHER_URL
@@ -34,6 +34,7 @@ const transformFromKelvinToCelsiusWeather = (temp: number) =>
         {{ transformFromKelvinToCelsiusWeather(temp) }}
       </p>
     </div>
+    <p class="weather-text">{{ name }}</p>
     <p class="weather-text">{{ description.toUpperCase() }}</p>
     <div class="weather-additional">
       <p class="weather-text">
@@ -65,6 +66,8 @@ const transformFromKelvinToCelsiusWeather = (temp: number) =>
 
   border: 1px solid var(--Weather-color);
   border-radius: 28px;
+
+  gap: 10px;
 }
 
 .weather-text {
@@ -89,8 +92,6 @@ const transformFromKelvinToCelsiusWeather = (temp: number) =>
 .weather-temp {
   display: flex;
   align-items: center;
-
-  gap: 10px;
 
   height: 100px;
 }

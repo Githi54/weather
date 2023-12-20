@@ -2,77 +2,78 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
 import { CONTENT_LIMIT } from '@app/limits'
+import { ICoord } from '@typify/interfaces/city.interface'
+import { getWeather } from '@api/services'
 
 export const useCitiesWeather = defineStore('citiesWeather', () => {
   const citiesWeather = ref<IWeatherInfo[]>([
     {
-      lat: 33.44,
-      lon: -94.04,
-      timezone: 'America/Chicago',
-      timezone_offset: -18000,
-      current: {
-        dt: 1684929490,
-        sunrise: 1684926645,
-        sunset: 1684977332,
-        temp: 292.55,
-        feels_like: 292.87,
-        pressure: 1014,
-        humidity: 89,
-        dew_point: 290.69,
-        uvi: 0.16,
-        clouds: 53,
-        visibility: 10000,
-        wind_speed: 3.13,
-        wind_deg: 93,
-        wind_gust: 6.71,
-        weather: [
-          {
-            id: 803,
-            main: 'Clouds',
-            description: 'broken clouds',
-            icon: '04d',
-          },
-        ],
+      coord: {
+        lon: 10.99,
+        lat: 44.34,
       },
-      hourly: [
+      weather: [
         {
-          dt: 1684926000,
-          temp: 292.01,
-          feels_like: 292.33,
-          pressure: 1014,
-          humidity: 91,
-          dew_point: 290.51,
-          uvi: 0,
-          clouds: 54,
-          visibility: 10000,
-          wind_speed: 2.58,
-          wind_deg: 86,
-          wind_gust: 5.88,
-          weather: [
-            {
-              id: 803,
-              main: 'Clouds',
-              description: 'broken clouds',
-              icon: '04n',
-            },
-          ],
-          pop: 0.15,
+          id: 501,
+          main: 'Rain',
+          description: 'moderate rain',
+          icon: '10d',
         },
       ],
+      base: 'stations',
+      main: {
+        temp: 298.48,
+        feels_like: 298.74,
+        temp_min: 297.56,
+        temp_max: 300.05,
+        pressure: 1015,
+        humidity: 64,
+        sea_level: 1015,
+        grnd_level: 933,
+      },
+      visibility: 10000,
+      wind: {
+        speed: 0.62,
+        deg: 349,
+        gust: 1.18,
+      },
+      rain: {
+        '1h': 3.16,
+      },
+      clouds: {
+        all: 100,
+      },
+      dt: 1661870592,
+      sys: {
+        type: 2,
+        id: 2075663,
+        country: 'IT',
+        sunrise: 1661834187,
+        sunset: 1661882248,
+      },
+      timezone: 7200,
+      id: 3163858,
+      name: 'Zocca',
+      cod: 200,
     },
   ])
 
-  function addCity(weatherInfo: IWeatherInfo) {
+  const addCity = async (coord: ICoord) => {
     if (citiesWeather.value.length === CONTENT_LIMIT) {
       return
     }
 
-    citiesWeather.value.push(weatherInfo)
+    try {
+      const { data: weather } = await getWeather(coord)
+      citiesWeather.value.push(weather)
+    } catch (error) {
+      throw new Error('Failed city add')
+    }
   }
 
   function removeCity(removedID: number) {
     citiesWeather.value = citiesWeather.value.filter(
-      ({ current: { weather } }) => weather[0].id !== removedID,
+      ({ weather }) => weather[0].id !== removedID,
     )
   }
 

@@ -2,7 +2,6 @@
 import { useCitiesWeather } from '@app/stores/citiesWeather.store'
 import WeatherCard from '@components/ui-kits/WeatherCard.vue'
 import { storeToRefs } from 'pinia'
-import CityName from '@components/features/CityName.vue'
 
 const store = useCitiesWeather()
 
@@ -11,12 +10,11 @@ const { citiesWeather } = storeToRefs(store)
 
 <template>
   <div
-    v-for="{ current, lat, lon } of citiesWeather"
-    :key="current.weather[0].id"
+    v-for="weatherData of citiesWeather"
+    :key="weatherData.weather[0].id"
     class="weather-info-container"
   >
-    <CityName :coord="{ lat, lon }" />
-    <WeatherCard :current-weather="current" />
+    <WeatherCard :current-weather="weatherData" />
   </div>
 </template>
 
@@ -32,7 +30,7 @@ const { citiesWeather } = storeToRefs(store)
 
   background-color: #fff;
 
-  padding: 0 20px 20px 20px;
+  padding: 20px;
   border: 1px solid transparent;
   border-radius: 10px;
 }
