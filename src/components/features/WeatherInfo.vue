@@ -11,8 +11,11 @@ import { storeToRefs } from 'pinia'
 import classNames from 'classnames'
 import { ref } from 'vue'
 import { CONTENT_LIMIT } from '@app/constants'
-import TempChart from '@components/features/TempChart.vue'
-import { transformFromKelvinToCelsiusWeather } from '@app/helpers'
+import TempChart from '@components/ui-kits/TempChart.vue'
+import {
+  transformFromKelvinToCelsiusWeather,
+  formatTimeToAmPmShort,
+} from '@app/helpers'
 
 const store = useCitiesWeather()
 const { citiesWeather } = storeToRefs(store)
@@ -71,10 +74,17 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
     <div class="weather-content">
       <WeatherCard :current-weather="weatherData" />
       <TempChart
+        :labels="
+          weatherData.list
+            .slice(0, 12)
+            .map(({ dt_txt }) => formatTimeToAmPmShort(dt_txt.split(' ')[1]))
+        "
         :data="
-          weatherData.list.map(({ main: { temp } }) =>
-            transformFromKelvinToCelsiusWeather(temp),
-          )
+          weatherData.list
+            .slice(0, 12)
+            .map(({ main: { temp } }) =>
+              transformFromKelvinToCelsiusWeather(temp),
+            )
         "
       />
     </div>

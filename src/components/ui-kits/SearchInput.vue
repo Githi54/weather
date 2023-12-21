@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const query = ref('')
-const { placeholder } = defineProps<{
+const { placeholder, query } = defineProps<{
   placeholder?: string
+  query: string
 }>()
 const searchEmit = defineEmits<{ search: [value: string] }>()
-const emitInputChange = () => searchEmit('search', query.value)
+const emitInputChange = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  searchEmit('search', target.value)
+}
 </script>
 
 <template v-slot:independentSlot>
   <input
-    v-model="query"
+    :value="query"
     type="text"
     class="search-input"
     :placeholder="placeholder"

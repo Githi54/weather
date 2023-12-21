@@ -2,16 +2,15 @@
 import Chart from 'chart.js/auto'
 import { onBeforeUnmount, ref, watchEffect } from 'vue'
 
-const { data } = defineProps<{
+const { data, labels } = defineProps<{
+  labels: string[]
   data: number[]
 }>()
 
 const chartRef = ref<HTMLCanvasElement | null>(null)
 const chartInstance = ref<Chart | null>(null)
-
-const labels = ['1', '2', '3', '4', '5', '6', '7']
 const chartData = {
-  labels: labels,
+  labels,
   datasets: [
     {
       label: 'Temperature change',
@@ -53,13 +52,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="chart-container">
-    <canvas ref="chartRef"></canvas>
+    <canvas ref="chartRef" height="350"></canvas>
   </div>
 </template>
 
 <style>
 .chart-container {
   width: 100%;
+  height: 350px;
 
   max-width: 300px;
 }

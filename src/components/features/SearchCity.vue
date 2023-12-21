@@ -36,6 +36,7 @@ const handleClickCity = (coord: ICoord) => {
     <SearchInput
       placeholder="Search city"
       class="search-input"
+      :query="cityQuery"
       @search="handleSearch"
     />
     <CityList
