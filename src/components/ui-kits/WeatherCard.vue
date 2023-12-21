@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
+import WeatherAdditional from '@components/ui-kits/WeatherAdditional.vue'
 
 const { currentWeather } = defineProps<{
   currentWeather: IWeatherInfo
@@ -10,8 +11,9 @@ const {
     0: { icon, description },
   },
   sys: { sunset },
-  main: { feels_like, temp },
+  main: { feels_like, temp, temp_min, temp_max },
   name,
+  wind: { speed },
 } = currentWeather
 const date = new Date(sunset)
 const BASE_URL = import.meta.env.VITE_BASE_WEATHER_URL
@@ -36,17 +38,24 @@ const transformFromKelvinToCelsiusWeather = (temp: number) =>
     </div>
     <p class="weather-text">{{ name }}</p>
     <p class="weather-text">{{ description.toUpperCase() }}</p>
-    <div class="weather-additional">
-      <p class="weather-text">
-        Feels like: {{ transformFromKelvinToCelsiusWeather(feels_like) }}
-      </p>
-      <p class="weather-text">|</p>
-      <p class="weather-text">
-        Sunset: {{ date.getHours() }}:{{
+    <WeatherAdditional
+      :weather-text-list="[
+        `Feels like: ${transformFromKelvinToCelsiusWeather(feels_like)}`,
+        '|',
+        `Sunset: ${date.getHours()}:${
           date.getMinutes() > 10 ? date.getMinutes() : `0${date.getMinutes()}`
-        }}
-      </p>
-    </div>
+        }`,
+      ]"
+    />
+    <WeatherAdditional
+      v-if="temp_min && temp_max"
+      :weather-text-list="[
+        `Min temp: ${transformFromKelvinToCelsiusWeather(temp_min)}`,
+        '|',
+        `Max temp: ${transformFromKelvinToCelsiusWeather(temp_max)}`,
+      ]"
+    />
+    <p class="weather-text">Wind speed: {{ speed }}</p>
   </div>
 </template>
 
