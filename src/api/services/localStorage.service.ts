@@ -1,4 +1,4 @@
-import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
+import { IWeatherInfo } from '@typify/interfaces'
 import { ELocalStorageItems, CONTENT_LIMIT } from '@app/constants'
 
 export const selectCurrentWeather = (payload: IWeatherInfo) => {
@@ -34,7 +34,7 @@ export const removeSelectedWeather = (removedID: number) => {
   )
 }
 
-export const getSelectedCurrentWeather = () => {
+export const getSelectedCurrentWeather = (): IWeatherInfo[] => {
   return JSON.parse(
     window.localStorage.getItem(ELocalStorageItems.SELECTED_CITIES) || '[]',
   )

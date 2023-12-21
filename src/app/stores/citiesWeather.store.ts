@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
-import { CONTENT_LIMIT, EErrors } from '@app/constants'
-import { ICoord } from '@typify/interfaces/city.interface'
+import { IWeatherInfo, ICoord } from '@typify/interfaces'
+import { EErrors } from '@app/constants'
 import {
   getSelectedCurrentWeather,
   getWeather,
@@ -196,10 +195,6 @@ export const useCitiesWeather = defineStore('citiesWeather', () => {
   const citiesWeather = ref<IWeatherInfo[]>(defaultData)
 
   const addCity = async (coord: ICoord) => {
-    if (citiesWeather.value.length === CONTENT_LIMIT) {
-      return
-    }
-
     try {
       const { data: weather } = await getWeather(coord)
       citiesWeather.value.push(weather)

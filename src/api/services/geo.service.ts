@@ -1,4 +1,4 @@
-import { ICity, ICoord } from '@typify/interfaces/city.interface'
+import { ICity, ICoord } from '@typify/interfaces'
 import { weatherClient } from '@api/clients'
 import { AxiosResponse } from 'axios'
 

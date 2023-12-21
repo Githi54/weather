@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
+import { IWeatherInfo } from '@typify/interfaces'
 import {
   getSelectedCurrentWeather,
   selectCurrentWeather,

@@ -1,4 +1,4 @@
-import { ICoord } from '@typify/interfaces/city.interface'
+import { ICoord } from '@typify/interfaces'
 import { weatherClient } from '@api/clients'
 
 const BASE_WEATHER_URL = '/data/2.5'

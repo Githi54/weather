@@ -5,7 +5,7 @@ import { computed, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import { getCitiesByQuery } from '@api/services'
 import { useCitiesWeather } from '@app/stores/citiesWeather.store'
-import { ICoord } from '@typify/interfaces/city.interface'
+import { ICoord } from '@typify/interfaces'
 
 const cityQuery = ref('')
 const handleSearch = (value: string) => {
