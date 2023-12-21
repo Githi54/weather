@@ -11,6 +11,7 @@ import { storeToRefs } from 'pinia'
 import classNames from 'classnames'
 import { ref } from 'vue'
 import { CONTENT_LIMIT } from '@app/constants'
+import TempChart from '@components/features/TempChart.vue'
 
 const store = useCitiesWeather()
 const { citiesWeather } = storeToRefs(store)
@@ -49,7 +50,7 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
     class="weather-info-container"
   >
     <div class="weather-actions">
-      <button class="weather-action">Delete</button>
+      <button class="weather-action weather-delete">Delete</button>
       <button
         class="weather-action weather-select"
         :class="
@@ -62,7 +63,10 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
         Select{{ selectedCitiesIDs.includes(weatherData.id) ? 'ed' : '' }}
       </button>
     </div>
-    <WeatherCard :current-weather="weatherData" />
+    <div class="weather-content">
+      <WeatherCard :current-weather="weatherData" />
+      <TempChart />
+    </div>
   </div>
 </template>
 
@@ -72,15 +76,18 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
   flex-direction: column;
   align-items: flex-start;
 
-  gap: 5px;
+  gap: 20px;
 
-  overflow-y: scroll;
+  overflow-x: hidden;
 
   background-color: #fff;
 
   padding: 20px;
+
   border: 1px solid transparent;
   border-radius: 10px;
+
+  max-width: 800px;
 }
 
 .weather-actions {
@@ -114,5 +121,32 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
 
 .weather-selected {
   color: green;
+}
+
+.weather-delete {
+  color: red;
+}
+
+.weather-delete:hover {
+  color: firebrick;
+}
+
+.weather-delete:active {
+  color: darkred;
+}
+
+.weather-content {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  gap: 30px;
+}
+
+@media (max-width: 1000px) {
+  .weather-content {
+    flex-direction: column;
+  }
 }
 </style>
