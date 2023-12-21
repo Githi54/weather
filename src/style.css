@@ -111,3 +111,22 @@ body {
 .btn:active {
   background: var(--Gray-50);
 }
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  overflow-x: hidden;
+
+  background-color: #fff;
+
+  padding: 20px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  max-width: 800px;
+}

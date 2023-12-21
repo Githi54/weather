@@ -12,14 +12,19 @@ import classNames from 'classnames'
 import { ref } from 'vue'
 import { CONTENT_LIMIT } from '@app/constants'
 import TempChart from '@components/features/TempChart.vue'
+import { transformFromKelvinToCelsiusWeather } from '@app/helpers'
 
 const store = useCitiesWeather()
 const { citiesWeather } = storeToRefs(store)
 const selectedCities = ref(getSelectedCurrentWeather() as IWeatherInfo[])
-const selectedCitiesIDs = ref(selectedCities.value.map(({ id }) => id))
+const selectedCitiesIDs = ref(
+  selectedCities.value.map(({ city: { id } }) => id),
+)
 
 const handleClickSelect = (weatherData: IWeatherInfo) => {
-  const { id: weatherID } = weatherData
+  const {
+    city: { id: weatherID },
+  } = weatherData
 
   if (selectedCitiesIDs.value.includes(weatherID)) {
     removeSelectedWeather(weatherID)
@@ -46,8 +51,8 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
 <template>
   <div
     v-for="weatherData of citiesWeather"
-    :key="weatherData.id"
-    class="weather-info-container"
+    :key="weatherData.city.id"
+    class="content-container"
   >
     <div class="weather-actions">
       <button class="weather-action weather-delete">Delete</button>
@@ -55,41 +60,28 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
         class="weather-action weather-select"
         :class="
           classNames({
-            'weather-selected': selectedCitiesIDs.includes(weatherData.id),
+            'weather-selected': selectedCitiesIDs.includes(weatherData.city.id),
           })
         "
         @click="handleClickSelect(weatherData)"
       >
-        Select{{ selectedCitiesIDs.includes(weatherData.id) ? 'ed' : '' }}
+        Select{{ selectedCitiesIDs.includes(weatherData.city.id) ? 'ed' : '' }}
       </button>
     </div>
     <div class="weather-content">
       <WeatherCard :current-weather="weatherData" />
-      <TempChart />
+      <TempChart
+        :data="
+          weatherData.list.map(({ main: { temp } }) =>
+            transformFromKelvinToCelsiusWeather(temp),
+          )
+        "
+      />
     </div>
   </div>
 </template>
 
 <style>
-.weather-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  gap: 20px;
-
-  overflow-x: hidden;
-
-  background-color: #fff;
-
-  padding: 20px;
-
-  border: 1px solid transparent;
-  border-radius: 10px;
-
-  max-width: 800px;
-}
-
 .weather-actions {
   display: flex;
   justify-content: flex-end;

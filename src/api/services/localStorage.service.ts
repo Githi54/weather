@@ -3,13 +3,13 @@ import { ELocalStorageItems, CONTENT_LIMIT } from '@app/constants'
 
 export const selectCurrentWeather = (payload: IWeatherInfo) => {
   const newSelected = getSelectedCurrentWeather() as IWeatherInfo[]
-  const prevIDs = newSelected.map(({ id }) => id)
+  const prevIDs = newSelected.map(({ city: { id } }) => id)
 
   if (newSelected.length === CONTENT_LIMIT) {
     return
   }
 
-  if (prevIDs.includes(payload.id)) {
+  if (prevIDs.includes(payload.city.id)) {
     return
   }
 
@@ -30,7 +30,7 @@ export const removeSelectedWeather = (removedID: number) => {
 
   window.localStorage.setItem(
     ELocalStorageItems.SELECTED_CITIES,
-    JSON.stringify(prevSelected.filter(({ id }) => id !== removedID)),
+    JSON.stringify(prevSelected.filter(({ city: { id } }) => id !== removedID)),
   )
 }
 

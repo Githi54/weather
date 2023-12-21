@@ -1,25 +1,26 @@
 <script setup lang="ts">
 import { IWeatherInfo } from '@typify/interfaces/weather-info.interface'
 import WeatherAdditional from '@components/ui-kits/WeatherAdditional.vue'
+import { transformFromKelvinToCelsiusWeather } from '@app/helpers'
 
 const { currentWeather } = defineProps<{
   currentWeather: IWeatherInfo
 }>()
 
 const {
-  weather: {
-    0: { icon, description },
+  list: {
+    0: {
+      weather: {
+        0: { icon, description },
+      },
+      main: { feels_like, temp, temp_min, temp_max },
+      wind: { speed },
+    },
   },
-  sys: { sunset },
-  main: { feels_like, temp, temp_min, temp_max },
-  name,
-  wind: { speed },
+  city: { sunset, name },
 } = currentWeather
 const date = new Date(sunset)
 const BASE_URL = import.meta.env.VITE_BASE_WEATHER_URL
-
-const transformFromKelvinToCelsiusWeather = (temp: number) =>
-  Math.floor(temp - 272.15)
 </script>
 
 <template>

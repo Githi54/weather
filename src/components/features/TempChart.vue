@@ -2,6 +2,10 @@
 import Chart from 'chart.js/auto'
 import { onBeforeUnmount, ref, watchEffect } from 'vue'
 
+const { data } = defineProps<{
+  data: number[]
+}>()
+
 const chartRef = ref<HTMLCanvasElement | null>(null)
 const chartInstance = ref<Chart | null>(null)
 
@@ -11,7 +15,7 @@ const chartData = {
   datasets: [
     {
       label: 'Temperature change',
-      data: [65, 59, 80, 81, 56, 55, 40],
+      data,
       fill: false,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
