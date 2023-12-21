@@ -4,6 +4,8 @@ import PageLayout from '@components/template/PageLayout.vue'
 import { computed, ref } from 'vue'
 import WeatherCard from '@components/ui-kits/WeatherCard.vue'
 import SelectedTypeButton from '@components/ui-kits/SelectedTypeButton.vue'
+import WeekWeatherCard from '@components/ui-kits/WeekWeatherCard.vue'
+import { transformWeatherData } from '@app/helpers'
 
 const selectedData = computed(() => getSelectedCurrentWeather())
 const displayDataType = ref('Day')
@@ -17,15 +19,20 @@ const selectTypeOnClick = (type: string) => (displayDataType.value = type)
         <SelectedTypeButton text="Day" @select-type="selectTypeOnClick" />
         <SelectedTypeButton text="Week" @select-type="selectTypeOnClick" />
       </div>
-      <div v-if="displayDataType === 'Day'" class="selected-weather-list">
+      <div v-if="displayDataType === 'Day'" class="selected-day-list">
         <WeatherCard
           v-for="weatherData of selectedData"
           :key="weatherData.city.id"
           :current-weather="weatherData"
         />
       </div>
-      <div v-if="displayDataType === 'Week'" class="selected-weather-list">
-        HI
+      <div v-if="displayDataType === 'Week'" class="selected-week-list">
+        <WeekWeatherCard
+          v-for="weatherData of selectedData"
+          :key="weatherData.city.id"
+          :week-weather="transformWeatherData(weatherData)"
+          :city-name="weatherData.city.name"
+        />
       </div>
     </div>
   </PageLayout>
@@ -42,7 +49,7 @@ const selectTypeOnClick = (type: string) => (displayDataType.value = type)
   gap: 40px;
 }
 
-.selected-weather-list {
+.selected-day-list {
   display: flex;
   flex-wrap: wrap;
 
@@ -53,6 +60,14 @@ const selectTypeOnClick = (type: string) => (displayDataType.value = type)
 
 .selected-type-action {
   display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.selected-week-list {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 
   gap: 10px;

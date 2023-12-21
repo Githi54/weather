@@ -17,3 +17,10 @@ export const formatTimeToAmPmShort = (timeString: string): string => {
 
   return `${hours}${period}`
 }
+
+export const formatDateToWeekDay = (dateMs: number) => {
+  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const date = new Date(dateMs)
+
+  return weekDays[date.getDay()]
+}

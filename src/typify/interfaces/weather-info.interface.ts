@@ -53,3 +53,11 @@ export interface ICurrentWeather {
   }
   dt_txt: string
 }
+
+export interface IWeekWeather {
+  id: number
+  weekDay: string
+  avgTemp: number
+  weatherIcon: string
+  cityName: string
+}

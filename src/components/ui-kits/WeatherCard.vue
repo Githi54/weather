@@ -2,6 +2,7 @@
 import { IWeatherInfo } from '@typify/interfaces'
 import WeatherAdditional from '@components/ui-kits/WeatherAdditional.vue'
 import { transformFromKelvinToCelsiusWeather } from '@app/helpers'
+import { BASE_URL } from '@app/constants'
 
 const { currentWeather } = defineProps<{
   currentWeather: IWeatherInfo
@@ -20,7 +21,6 @@ const {
   city: { sunset, name },
 } = currentWeather
 const date = new Date(sunset)
-const BASE_URL = import.meta.env.VITE_BASE_WEATHER_URL
 </script>
 
 <template>
