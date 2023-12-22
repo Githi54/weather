@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Chart from 'chart.js/auto'
-import { onBeforeUnmount, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const { data, labels } = defineProps<{
   labels: string[]
@@ -8,7 +8,6 @@ const { data, labels } = defineProps<{
 }>()
 
 const chartRef = ref<HTMLCanvasElement | null>(null)
-const chartInstance = ref<Chart | null>(null)
 const chartData = {
   labels,
   datasets: [
@@ -23,15 +22,11 @@ const chartData = {
 }
 
 const renderChart = () => {
-  if (chartInstance.value) {
-    chartInstance.value.destroy()
-  }
-
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d')
 
     if (ctx) {
-      chartInstance.value = new Chart(ctx, {
+      new Chart(ctx, {
         type: 'line',
         data: chartData,
       })
@@ -41,12 +36,6 @@ const renderChart = () => {
 
 watchEffect(() => {
   renderChart()
-})
-
-onBeforeUnmount(() => {
-  if (chartInstance.value) {
-    chartInstance.value.destroy()
-  }
 })
 </script>
 
