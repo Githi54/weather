@@ -1,5 +1,5 @@
 import { IWeatherInfo } from '@typify/interfaces'
-import { ELocalStorageItems, CONTENT_LIMIT } from '@app/constants'
+import { ELocalStorageItems, CONTENT_LIMIT, MIN_CONTENT } from '@app/constants'
 
 export const selectCurrentWeather = (payload: IWeatherInfo) => {
   const newSelected = getSelectedCurrentWeather() as IWeatherInfo[]
@@ -24,7 +24,7 @@ export const selectCurrentWeather = (payload: IWeatherInfo) => {
 export const removeSelectedWeather = (removedID: number) => {
   const prevSelected = getSelectedCurrentWeather() as IWeatherInfo[]
 
-  if (prevSelected.length === 1) {
+  if (prevSelected.length === MIN_CONTENT) {
     return
   }
 

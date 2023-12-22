@@ -10,19 +10,25 @@ import WeatherCard from '@components/ui-kits/WeatherCard.vue'
 import { storeToRefs } from 'pinia'
 import classNames from 'classnames'
 import { ref } from 'vue'
-import { CONTENT_LIMIT } from '@app/constants'
+import { CONTENT_LIMIT, EModalTexts, MIN_CONTENT } from '@app/constants'
 import TempChart from '@components/ui-kits/TempChart.vue'
 import {
   transformFromKelvinToCelsiusWeather,
   formatTimeToAmPmShort,
 } from '@app/helpers'
+import ModalAlert from '@components/ui-kits/ModalAlert.vue'
 
 const store = useCitiesWeather()
+const { removeCity } = store
 const { citiesWeather } = storeToRefs(store)
 const selectedCities = ref(getSelectedCurrentWeather() as IWeatherInfo[])
 const selectedCitiesIDs = ref(
   selectedCities.value.map(({ city: { id } }) => id),
 )
+const showModal = ref(false)
+const modalText = ref('')
+
+const handleCloseModal = () => (showModal.value = false)
 
 const handleClickSelect = (weatherData: IWeatherInfo) => {
   const {
@@ -30,9 +36,14 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
   } = weatherData
 
   if (selectedCitiesIDs.value.includes(weatherID)) {
-    removeSelectedWeather(weatherID)
+    if (selectedCitiesIDs.value.length === MIN_CONTENT) {
+      showModal.value = true
+      modalText.value = EModalTexts.MIN_SELECTED
+    }
 
     if (selectedCities.value.length > 1) {
+      removeSelectedWeather(weatherID)
+
       selectedCitiesIDs.value = selectedCitiesIDs.value.filter(
         (id) => id !== weatherID,
       )
@@ -40,14 +51,29 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
   } else {
     selectCurrentWeather(weatherData)
 
-    if (selectedCitiesIDs.value.length < CONTENT_LIMIT) {
+    if (selectedCitiesIDs.value.length !== CONTENT_LIMIT) {
       selectedCitiesIDs.value = [...selectedCitiesIDs.value, weatherID]
+    } else {
+      showModal.value = true
+      modalText.value = EModalTexts.MAX_SELECTED
     }
   }
 
   const newArr = getSelectedCurrentWeather()
 
   selectedCities.value = newArr
+}
+
+const handleClickDelete = () => {
+  modalText.value = EModalTexts.DELETE_ITEM
+  showModal.value = true
+}
+
+const handleDeleteCity = (id: number) => {
+  selectedCities.value.length === MIN_CONTENT &&
+  selectedCitiesIDs.value.includes(id)
+    ? (modalText.value = EModalTexts.DELETE_FAILED)
+    : (removeCity(id), removeSelectedWeather(id), (showModal.value = false))
 }
 </script>
 
@@ -58,7 +84,9 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
     class="content-container"
   >
     <div class="weather-actions">
-      <button class="weather-action weather-delete">Delete</button>
+      <button class="weather-action weather-delete" @click="handleClickDelete">
+        Delete
+      </button>
       <button
         class="weather-action weather-select"
         :class="
@@ -88,6 +116,25 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
         "
       />
     </div>
+
+    <ModalAlert
+      v-if="showModal"
+      :text="modalText"
+      @handle-close="handleCloseModal"
+    >
+      <div
+        v-if="modalText === EModalTexts.DELETE_ITEM"
+        class="modal-agreement-action"
+      >
+        <button
+          class="btn"
+          @click="() => handleDeleteCity(weatherData.city.id)"
+        >
+          Yes
+        </button>
+        <button class="btn" @click="handleCloseModal">No</button>
+      </div>
+    </ModalAlert>
   </div>
 </template>
 
@@ -150,5 +197,14 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
   .weather-content {
     flex-direction: column;
   }
+}
+
+.modal-agreement-action {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 40px;
 }
 </style>

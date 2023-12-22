@@ -87,6 +87,7 @@ body {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .btn {
@@ -121,8 +122,6 @@ body {
   align-items: flex-start;
 
   gap: 20px;
-
-  overflow-x: hidden;
 
   background-color: #fff;
 
