@@ -20,7 +20,7 @@ const {
   },
   city: { sunset, name },
 } = currentWeather
-const date = new Date(sunset)
+const sunsetDate = new Date(sunset)
 </script>
 
 <template>
@@ -43,8 +43,10 @@ const date = new Date(sunset)
       :weather-text-list="[
         `Feels like: ${transformFromKelvinToCelsiusWeather(feels_like)}`,
         '|',
-        `Sunset: ${date.getHours()}:${
-          date.getMinutes() > 10 ? date.getMinutes() : `0${date.getMinutes()}`
+        `Sunset: ${sunsetDate.getHours()}:${
+          Number(sunsetDate.getMinutes()) >= 10
+            ? sunsetDate.getMinutes()
+            : `0${sunsetDate.getMinutes()}`
         }`,
       ]"
     />
