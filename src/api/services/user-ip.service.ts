@@ -14,7 +14,10 @@ export const getUserCoordByIP = (): Promise<ICoord | null> => {
           resolve(coord)
         },
         () => {
-          // default city is Zocca from api response example
+          coord = {
+            lat: 44.34,
+            lon: 10.99,
+          } // default city is Zocca from api response example
           resolve(coord)
         },
       )

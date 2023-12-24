@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import AppLogo from '@components/ui-kits/AppLogo.vue'
 import AppNavigation from '@components/lists/AppNavigation.vue'
+import PageLoader from '@components/ui-kits/PageLoader.vue'
+
+const { isLoading } = defineProps<{
+  isLoading?: boolean
+}>()
 </script>
 
 <template>
   <div class="layout-container">
     <AppLogo />
     <AppNavigation />
-    <slot name="independentSlot"></slot>
-    <slot></slot>
+    <PageLoader v-if="isLoading" />
+    <slot v-else></slot>
   </div>
 </template>
 
