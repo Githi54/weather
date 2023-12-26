@@ -489,6 +489,7 @@ Example of response:
  -- components
    --- ui-kits - dumb components for data display
    --- template - layouts for page
+   --- lists - traversal of the data array and display for user
    --- feature - smart components
    --- pages - for display data on route
 ```
