@@ -421,7 +421,6 @@ Example of response:
       },
       "dt_txt": "2022-08-30 21:00:00"
     },
-    ....
     {
       "dt": 1662292800,
       "main": {
@@ -490,6 +489,7 @@ Example of response:
  -- components
    --- ui-kits - dumb components for data display
    --- template - layouts for page
+   --- lists - traversal of the data array and display for user
    --- feature - smart components
    --- pages - for display data on route
 ```
