@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { IWeatherInfo, ICoord } from '@typify/interfaces'
-import { EErrors } from '@app/constants'
+import { EErrors, MIN_CONTENT } from '@app/constants'
 import {
   getSelectedCurrentWeather,
   getUserCoordByIP,
   getWeather,
+  removeSelectedWeather,
   selectCurrentWeather,
 } from '@api/services'
 
@@ -225,9 +226,15 @@ export const useCitiesWeather = defineStore('citiesWeather', () => {
   }
 
   function removeCity(removedID: number) {
+    if (citiesWeather.value.length === MIN_CONTENT) {
+      return
+    }
+
     citiesWeather.value = citiesWeather.value.filter(
       ({ city: { id } }) => id !== removedID,
     )
+
+    removeSelectedWeather(removedID)
   }
 
   return { citiesWeather, addCity, removeCity }

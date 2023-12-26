@@ -27,10 +27,11 @@ const selectedCitiesIDs = ref(
 )
 const showModal = ref(false)
 const modalText = ref('')
+const removedID = ref<number | null>(null)
 
 const handleCloseModal = () => (showModal.value = false)
 
-const handleClickSelect = (weatherData: IWeatherInfo) => {
+const handleClickSelectBtn = (weatherData: IWeatherInfo) => {
   const {
     city: { id: weatherID },
   } = weatherData
@@ -64,16 +65,27 @@ const handleClickSelect = (weatherData: IWeatherInfo) => {
   selectedCities.value = newArr
 }
 
-const handleClickDelete = () => {
+const handleClickDeleteBtn = (id: number) => {
   modalText.value = EModalTexts.DELETE_ITEM
   showModal.value = true
+  removedID.value = id
 }
 
-const handleDeleteCity = (id: number) => {
-  selectedCities.value.length === MIN_CONTENT &&
-  selectedCitiesIDs.value.includes(id)
-    ? (modalText.value = EModalTexts.DELETE_FAILED)
-    : (removeCity(id), removeSelectedWeather(id), (showModal.value = false))
+const handleDeleteCity = () => {
+  if (
+    removedID.value &&
+    selectedCities.value.length === MIN_CONTENT &&
+    selectedCitiesIDs.value.includes(removedID.value)
+  ) {
+    modalText.value = EModalTexts.DELETE_FAILED
+
+    return
+  }
+
+  if (removedID.value) {
+    removeCity(removedID.value)
+    showModal.value = false
+  }
 }
 </script>
 
@@ -84,7 +96,10 @@ const handleDeleteCity = (id: number) => {
     class="content-container"
   >
     <div class="weather-actions">
-      <button class="weather-action weather-delete" @click="handleClickDelete">
+      <button
+        class="weather-action weather-delete"
+        @click="() => handleClickDeleteBtn(weatherData.city.id)"
+      >
         Delete
       </button>
       <button
@@ -94,7 +109,7 @@ const handleDeleteCity = (id: number) => {
             'weather-selected': selectedCitiesIDs.includes(weatherData.city.id),
           })
         "
-        @click="handleClickSelect(weatherData)"
+        @click="handleClickSelectBtn(weatherData)"
       >
         Select{{ selectedCitiesIDs.includes(weatherData.city.id) ? 'ed' : '' }}
       </button>
@@ -126,12 +141,7 @@ const handleDeleteCity = (id: number) => {
         v-if="modalText === EModalTexts.DELETE_ITEM"
         class="modal-agreement-action"
       >
-        <button
-          class="btn"
-          @click="() => handleDeleteCity(weatherData.city.id)"
-        >
-          Yes
-        </button>
+        <button class="btn" @click="handleDeleteCity">Yes</button>
         <button class="btn" @click="handleCloseModal">No</button>
       </div>
     </ModalAlert>
